@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Route } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 import styled from 'styled-components'
 
 import MobileAdminList from './MobileAdminList'
@@ -16,13 +16,15 @@ class Content extends Component {
   render() {
     return (
       <ContentWrapper>
-        <Route path="/mobile-admin" component={MobileAdminList} />
-        <Route path="/deal-client" component={DealClientList} />
-        <Route path="/eshop-client" component={EShopClientList} />
+        <Switch>
+          <Route path="/mobile-admin" component={MobileAdminList} />
+          <Route path="/deal-client" component={DealClientList} />
+          <Route path="/eshop-client" component={EShopClientList} />
+          <Route component={MobileAdminList} />
+        </Switch>
       </ContentWrapper>
     )
   }
-
 }
 
 export default Content
