@@ -49,7 +49,7 @@ export const fetchAll = (condition, option, sortOpt) => dispatch => {
     dispatch(loadGridDataSuccess(data))
     notification.success({
       message: '获取成功',
-      description: `恭喜, 获取第 ${option.skip + 1} 页数据成功!`
+      description: `恭喜, 获取 DealClient 第 ${option.skip + 1} 页数据成功!`
     })
     return data
   })
@@ -61,7 +61,7 @@ export const fetchAll = (condition, option, sortOpt) => dispatch => {
 
     notification.error({
       message: '获取失败',
-      description: `啊哦, 获取第 ${option.skip + 1} 页数据失败!`
+      description: `啊哦, 获取 DealClient 第 ${option.skip + 1} 页数据失败!`
     })
     return Promise.reject(err)
   })
@@ -90,7 +90,7 @@ export const remove = (condition) => dispatch => {
 
     notification.success({
       message: '删除成功',
-      description: '恭喜, 删除数据成功!'
+      description: '恭喜, 删除 DealClient 数据成功!'
     })
 
     return _
@@ -100,7 +100,7 @@ export const remove = (condition) => dispatch => {
 
     notification.error({
       message: '删除失败',
-      description: '啊哦, 删除数据失败!'
+      description: '啊哦, 删除 DealClient 数据失败!'
     })
 
     return Promise.reject(err)
