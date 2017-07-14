@@ -23,7 +23,7 @@ class EShopClientList extends Component {
     filter: {
       module: '',
       method: '',
-      level: '',
+      level: ''
     }
   }
 
@@ -89,6 +89,19 @@ class EShopClientList extends Component {
       remove({
         [rowKey]: selectedRowKeys
       })
+    ).then(_ => {
+      this.setState({
+        selectedRowKeys: []
+      })
+      return this.initData()
+    })
+  }
+
+  deleteAll = () => {
+    const { dispatch } = this.props
+
+    dispatch(
+      remove({})
     ).then(_ => {
       this.setState({
         selectedRowKeys: []
@@ -164,6 +177,15 @@ class EShopClientList extends Component {
             <Option value="INFO">INFO</Option>
             <Option value="ERROR">ERROR</Option>
           </Select>
+
+          <Button
+            type="primary"
+            style={{ marginLeft: 16 }}
+            onClick={this.deleteAll}
+            loading={loading}
+          >
+            删除全部
+          </Button>
         </div>
         <Table
           rowSelection={rowSelection}

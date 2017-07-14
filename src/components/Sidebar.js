@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { Menu, Icon } from 'antd'
 const SubMenu = Menu.SubMenu
-const MenuItemGroup = Menu.ItemGroup
 
 const SidebarWrapper = styled.div`
   width: 240px;
@@ -12,7 +11,7 @@ const SidebarWrapper = styled.div`
 
 class Sidebar extends Component {
   handleClick = e => {
-    console.log('click ', e)
+    // console.log('click ', e)
   }
   render() {
     return (

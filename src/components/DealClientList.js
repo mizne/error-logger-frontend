@@ -97,6 +97,19 @@ class DealClientList extends Component {
     })
   }
 
+  deleteAll = () => {
+    const { dispatch } = this.props
+
+    dispatch(
+      remove({})
+    ).then(_ => {
+      this.setState({
+        selectedRowKeys: []
+      })
+      return this.initData()
+    })
+  }
+
   initData = condition => {
     condition = condition || filterObj(this.state.filter, e => e)
     const { dispatch } = this.props
@@ -164,6 +177,15 @@ class DealClientList extends Component {
             <Option value="INFO">INFO</Option>
             <Option value="ERROR">ERROR</Option>
           </Select>
+
+          <Button
+            type="primary"
+            style={{ marginLeft: 16 }}
+            onClick={this.deleteAll}
+            loading={loading}
+          >
+            删除全部
+          </Button>
         </div>
         <Table
           rowSelection={rowSelection}
