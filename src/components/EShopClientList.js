@@ -40,8 +40,8 @@ class EShopClientList extends Component {
         sortOrder: sorter.order
       })
     }
-
-    dispatch(fetchAll(filters, option))
+    console.log(this.state.filter)
+    dispatch(fetchAll(this.state.filter, option))
   }
 
   onSelectChange = selectedRowKeys => {

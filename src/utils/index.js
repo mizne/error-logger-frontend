@@ -24,4 +24,17 @@ const assertObj = obj => {
   }
 }
 
-export { isEmptyObj, filterObj }
+const queryFrom = (obj) => {
+  obj = filterObj(obj, v => v)
+  return obj ? 
+    Object.keys(obj)
+    .map(key => 
+      Array.isArray(obj[key]) ? 
+      obj[key].map(e => `${key}=${e}`).join('&')
+      :`${key}=${obj[key]}`
+    ).join('&') 
+    : 
+    ''
+}
+
+export { isEmptyObj, filterObj, queryFrom }

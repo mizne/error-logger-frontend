@@ -40,11 +40,11 @@ export const loadModuleFiltersFailed = () => ({
   type: LOAD_MODULE_FILTERS_FAILED,
 })
 
-export const fetchAll = (condition, option, sortOpt) => dispatch => {
+export const fetchAll = (condition, option) => dispatch => {
   dispatch(requestStart())
   dispatch(setCurrentPage(option.skip + 1))
 
-  return MobileAdminService.fetchAll(condition, option, sortOpt)
+  return MobileAdminService.fetchAll(condition, option)
   .then(data => {
     dispatch(loadGridDataSuccess(data))
     notification.success({

@@ -1,16 +1,6 @@
 import { http } from './interceptors'
+import { queryFrom } from '../utils/index'
 
-const queryFrom = (obj) => {
-  return obj ? 
-    Object.keys(obj)
-    .map(key => 
-      Array.isArray(obj[key]) ? 
-      obj[key].map(e => `${key}=${e}`).join('&')
-      :`${key}=${obj[key]}`
-    ).join('&') 
-    : 
-    ''
-}
 
 const fetchAll = (condition, option) => {
   const conditionStr = queryFrom(condition)
