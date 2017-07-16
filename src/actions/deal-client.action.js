@@ -40,16 +40,16 @@ export const loadModuleFiltersFailed = () => ({
   type: LOAD_MODULE_FILTERS_FAILED,
 })
 
-export const fetchAll = (condition, option, sortOpt) => dispatch => {
+export const fetchAll = (condition, {skip, limit}) => dispatch => {
   dispatch(requestStart())
-  dispatch(setCurrentPage(option.skip + 1))
+  dispatch(setCurrentPage(skip + 1))
 
-  return DealClientService.fetchAll(condition, option, sortOpt)
+  return DealClientService.fetchAll(condition, {skip: skip * limit, limit})
   .then(data => {
     dispatch(loadGridDataSuccess(data))
     notification.success({
       message: '获取成功',
-      description: `恭喜, 获取 DealClient 第 ${option.skip + 1} 页数据成功!`
+      description: `恭喜, 获取 DealClient 第 ${skip + 1} 页数据成功!`
     })
     return data
   })
@@ -61,7 +61,7 @@ export const fetchAll = (condition, option, sortOpt) => dispatch => {
 
     notification.error({
       message: '获取失败',
-      description: `啊哦, 获取 DealClient 第 ${option.skip + 1} 页数据失败!`
+      description: `啊哦, 获取 DealClient 第 ${skip + 1} 页数据失败!`
     })
     return Promise.reject(err)
   })

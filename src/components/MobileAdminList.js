@@ -30,6 +30,7 @@ class MobileAdminList extends Component {
 
   handleTableChange = (pagination, filters, sorter) => {
     const { dispatch } = this.props
+    const { filter: selectFilters } = this.state
     let option = {
       skip: pagination.current - 1,
       limit: pagination.pageSize
@@ -41,7 +42,7 @@ class MobileAdminList extends Component {
         sortOrder: sorter.order
       })
     }
-
+    Object.assign(filters, selectFilters)
     dispatch(fetchAll(filters, option))
   }
 

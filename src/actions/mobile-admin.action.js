@@ -2,23 +2,25 @@ import { notification } from 'antd'
 
 import { MobileAdminService } from '../http'
 
-export const REQUEST_START = '[MobileAdmin] RequestStart' 
+export const REQUEST_START = '[MobileAdmin] RequestStart'
 export const LOAD_GRID_DATA_SUCCESS = '[MobileAdmin] LoadGridDataSuccess'
 export const LOAD_GRID_DATA_FAILED = '[MobileAdmin] LoadGridDataFailed'
 export const REMOVE_SUCCESS = '[MobileAdmin] RemoveSuccess'
 export const REMOVE_FAILED = '[MobileAdmin] RemoveFailed'
-export const SET_CURRENT_PAGE = '[MobileAdmin] SetCurrentPage' 
-export const LOAD_MODULE_FILTERS_SUCCESS = '[MobileAdmin] LoadModuleFiltersSuccess'
-export const LOAD_MODULE_FILTERS_FAILED = '[MobileAdmin] LoadModuleFiltersFailed'
+export const SET_CURRENT_PAGE = '[MobileAdmin] SetCurrentPage'
+export const LOAD_MODULE_FILTERS_SUCCESS =
+  '[MobileAdmin] LoadModuleFiltersSuccess'
+export const LOAD_MODULE_FILTERS_FAILED =
+  '[MobileAdmin] LoadModuleFiltersFailed'
 
 export const requestStart = () => ({
   type: REQUEST_START
 })
-export const loadGridDataSuccess = (items) => ({
+export const loadGridDataSuccess = items => ({
   type: LOAD_GRID_DATA_SUCCESS,
   payload: items
 })
-export const loadGridDataFailed = (payload) => ({
+export const loadGridDataFailed = payload => ({
   type: LOAD_GRID_DATA_FAILED,
   payload
 })
@@ -28,81 +30,83 @@ export const removeSuccess = () => ({
 export const removeFailed = () => ({
   type: REMOVE_FAILED
 })
-export const setCurrentPage = (currentPage) => ({
+export const setCurrentPage = currentPage => ({
   type: SET_CURRENT_PAGE,
   payload: currentPage
 })
-export const loadModuleFiltersSuccess = (filters) => ({
+export const loadModuleFiltersSuccess = filters => ({
   type: LOAD_MODULE_FILTERS_SUCCESS,
   payload: filters
 })
 export const loadModuleFiltersFailed = () => ({
-  type: LOAD_MODULE_FILTERS_FAILED,
+  type: LOAD_MODULE_FILTERS_FAILED
 })
 
-export const fetchAll = (condition, option) => dispatch => {
+export const fetchAll = (condition, { skip, limit }) => dispatch => {
   dispatch(requestStart())
-  dispatch(setCurrentPage(option.skip + 1))
+  dispatch(setCurrentPage(skip + 1))
 
-  return MobileAdminService.fetchAll(condition, option)
-  .then(data => {
-    dispatch(loadGridDataSuccess(data))
-    notification.success({
-      message: '获取成功',
-      description: `恭喜, 获取 MobileAdmin 第 ${option.skip + 1} 页数据成功!`
+  return MobileAdminService.fetchAll(condition, { skip: skip * limit, limit })
+    .then(data => {
+      dispatch(loadGridDataSuccess(data))
+      notification.success({
+        message: '获取成功',
+        description: `恭喜, 获取 MobileAdmin 第 ${skip + 1} 页数据成功!`
+      })
+      return data
     })
-    return data
-  })
-  .catch(err => {
-    dispatch(loadGridDataFailed({
-      total: 0,
-      items: []
-    }))
+    .catch(err => {
+      dispatch(
+        loadGridDataFailed({
+          total: 0,
+          items: []
+        })
+      )
 
-    notification.error({
-      message: '获取失败',
-      description: `啊哦, 获取 MobileAdmin 第 ${option.skip + 1} 页数据失败!`
+      notification.error({
+        message: '获取失败',
+        description: `啊哦, 获取 MobileAdmin 第 ${skip + 1} 页数据失败!`
+      })
+      return Promise.reject(err)
     })
-    return Promise.reject(err)
-  })
 }
 
-export const fetchFilters = (fieldName) => dispatch => {
+export const fetchFilters = fieldName => dispatch => {
   dispatch(requestStart())
 
   return MobileAdminService.fetchFilters(fieldName)
-  .then(data => {
-    dispatch(loadModuleFiltersSuccess(data))
-    return data
-  })
-  .catch(err => {
-    dispatch(loadModuleFiltersFailed())
-    return Promise.reject(err)
-  })
+    .then(data => {
+      dispatch(loadModuleFiltersSuccess(data))
+      return data
+    })
+    .catch(err => {
+      dispatch(loadModuleFiltersFailed())
+      return Promise.reject(err)
+    })
 }
 
-export const remove = (condition) => dispatch => {
+export const remove = condition => dispatch => {
   dispatch(requestStart())
 
   return MobileAdminService.remove(condition)
-  .then(_ => {
-    dispatch(removeSuccess())
+    .then(_ => {
+      dispatch(removeSuccess())
 
-    notification.success({
-      message: '删除成功',
-      description: '恭喜, 删除 MobileAdmin 数据成功!'
+      notification.success({
+        message: '删除成功',
+        description: '恭喜, 删除 MobileAdmin 数据成功!'
+      })
+
+      return _
     })
+    .catch(err => {
+      dispatch(removeFailed())
 
-    return _
-  })
-  .catch(err => {
-    dispatch(removeFailed())
+      notification.error({
+        message: '删除失败',
+        description: '啊哦, 删除 MobileAdmin 数据失败!'
+      })
 
-    notification.error({
-      message: '删除失败',
-      description: '啊哦, 删除 MobileAdmin 数据失败!'
+      return Promise.reject(err)
     })
-
-    return Promise.reject(err)
-  })
 }

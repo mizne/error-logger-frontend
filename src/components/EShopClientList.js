@@ -29,6 +29,7 @@ class EShopClientList extends Component {
 
   handleTableChange = (pagination, filters, sorter) => {
     const { dispatch } = this.props
+    const { filter: selectFilters } = this.state
     let option = {
       skip: pagination.current - 1,
       limit: pagination.pageSize
@@ -40,8 +41,8 @@ class EShopClientList extends Component {
         sortOrder: sorter.order
       })
     }
-    console.log(this.state.filter)
-    dispatch(fetchAll(this.state.filter, option))
+    Object.assign(filters, selectFilters)
+    dispatch(fetchAll(filters, option))
   }
 
   onSelectChange = selectedRowKeys => {
