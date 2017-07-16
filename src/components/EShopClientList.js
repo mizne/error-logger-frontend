@@ -112,7 +112,7 @@ class EShopClientList extends Component {
   }
 
   initData = condition => {
-    condition = condition || filterObj(this.state.filter, e => e)
+    condition = condition || this.state.filter
     const { dispatch } = this.props
     return dispatch(
       fetchAll(condition, {

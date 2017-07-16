@@ -16,6 +16,10 @@ const fetchAll = (condition, option) => {
 
 const fetchFilters = (fieldName) => {
   return http.get(`/${fieldName}?appName=mobileAdmin`)
+  .then(data => {
+    data.sort((a, b) => a.name.localeCompare(b.name))
+    return data
+  })
   .catch(err => {
     console.error(err)
     return Promise.reject(err)
