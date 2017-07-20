@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const http = axios.create({
-  baseURL: 'http://logger.xiaovbao.cn/api/v1',
+  baseURL: 'https://logger.xiaovbao.cn/api/v1',
   timeout: 10000,
 })
 
